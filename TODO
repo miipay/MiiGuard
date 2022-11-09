@@ -1,0 +1,5 @@
+TODO:
+* Users CRUD API
+* Authorization for users CRUD APIs
+* audit logs with the log module?
+
