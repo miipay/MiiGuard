@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { FilterOperator, PaginateQuery, paginate, Paginated } from 'nestjs-paginate';
-import { User, SessionToken } from './entities';
+import { User, Permission, SessionToken } from './entities';
 import { CreateUserDto } from './users.dto';
 import { MAXIMUM_FAILURE_COUNT, LOCK_DURATION } from './constants';
 import { LoginError, LoginErrorType } from './users.error';
@@ -121,5 +121,30 @@ export class UsersService {
     } else {
       return true;
     }
+  }
+
+  async grant(username: string, permissions: Permission[]): Promise<User> {
+    const user = await this.userRepository.findOneByOrFail({ username });
+    const newPermissions = permissions.filter(
+      (permission) =>
+        !user.permissions.find(
+          (userPerm) => userPerm.service === permission.service && userPerm.permission === permission.permission,
+        ),
+    );
+
+    user.permissions = [...user.permissions, ...newPermissions];
+    return await this.userRepository.save(user);
+  }
+
+  async revoke(username: string, permissions: Permission[]): Promise<User> {
+    const user = await this.userRepository.findOneByOrFail({ username });
+    user.permissions = user.permissions.filter(
+      (userPerm) =>
+        !permissions.find(
+          (permission) => userPerm.service === permission.service && userPerm.permission === permission.permission,
+        ),
+    );
+
+    return await this.userRepository.save(user);
   }
 }

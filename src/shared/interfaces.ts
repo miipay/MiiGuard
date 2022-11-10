@@ -10,8 +10,14 @@ export type JWTTokens = {
   refreshToken: string;
 };
 
+export type IPermission = {
+  service: string;
+  permission: string;
+};
+
 export type BaseUser = {
   username: string;
   displayName: string;
+  permissions?: IPermission[];
   [key: string]: any;
 };

@@ -1,4 +1,14 @@
-import { Entity, CreateDateColumn, Column, Index, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  CreateDateColumn,
+  Column,
+  Index,
+  PrimaryColumn,
+  UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
+import { Permission } from './permission.entity';
 
 @Entity()
 export class User {
@@ -28,6 +38,10 @@ export class User {
   // failure attempt count in a row
   @Column({ default: 0, type: 'tinyint' })
   failedCount: number;
+
+  @ManyToMany(() => Permission, { cascade: true, onDelete: 'CASCADE' })
+  @JoinTable()
+  permissions: Permission[];
 
   @CreateDateColumn()
   created: Date;
