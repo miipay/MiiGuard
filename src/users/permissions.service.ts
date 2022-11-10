@@ -27,7 +27,7 @@ export class PermissionsService {
     });
   }
 
-  async deletePermission(service: string, permission: string): Promise<void> {
-    await this.permissionRepository.delete({ service, permission });
+  async deletePermissionById(id: number): Promise<void> {
+    await this.permissionRepository.delete({ id });
   }
 }

@@ -19,7 +19,7 @@ export class User {
   @Column({ length: 256, select: false })
   password: string;
 
-  @Column({ length: 64 })
+  @Column({ length: 64, select: false })
   hashAlgorithm: string;
 
   @Column({ length: 160 })

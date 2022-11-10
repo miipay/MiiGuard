@@ -9,6 +9,7 @@ import { CreateUserDto } from './users.dto';
 import { MAXIMUM_FAILURE_COUNT, LOCK_DURATION } from './constants';
 import { LoginError, LoginErrorType } from './users.error';
 import { hashPassword, verifyPassword } from './utils';
+import { IPermission } from 'src/shared/interfaces';
 
 type CheckTokenType = 'accessTokenHash' | 'refreshTokenHash';
 
@@ -17,6 +18,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(SessionToken) private sessionTokenRepository: Repository<SessionToken>,
+    @InjectRepository(Permission) private permissionRepository: Repository<Permission>,
     private configService: ConfigService,
   ) {}
 
@@ -58,7 +60,9 @@ export class UsersService {
     const hashResult = await hashPassword(password);
     user.password = hashResult.passwordHash;
     user.hashAlgorithm = hashResult.algorithm;
-    return await this.userRepository.save(user);
+    await this.userRepository.save(user);
+    // requery the user to strip out the { select: false } properties, like: password, hash, etc
+    return this.userRepository.findOneBy({ username: user.username });
   }
 
   async verifyLogin(username: string, password: string): Promise<boolean> {
@@ -108,7 +112,7 @@ export class UsersService {
   }
 
   async findOneByKey(username: string): Promise<User | null> {
-    return this.userRepository.findOneBy({ username });
+    return this.userRepository.findOne({ where: { username }, relations: ['permissions'] });
   }
 
   async isActive(user: User): Promise<boolean> {
@@ -145,6 +149,12 @@ export class UsersService {
         ),
     );
 
+    return await this.userRepository.save(user);
+  }
+
+  async setPermissions(username: string, permissions: IPermission[] | Permission[]): Promise<User> {
+    const user = await this.userRepository.findOneByOrFail({ username });
+    user.permissions = await this.permissionRepository.findBy(permissions);
     return await this.userRepository.save(user);
   }
 }

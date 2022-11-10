@@ -13,6 +13,6 @@ export class Permission {
   @Column({ length: 160 })
   permission: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ select: false })
   created: Date;
 }
