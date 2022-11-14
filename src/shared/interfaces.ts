@@ -2,6 +2,7 @@ export type JWTPayload = {
   sub: string;
   username: string;
   iss: 'MiiGuard';
+  permissions?: IPermission[];
   refreshToken?: string;
 };
 
