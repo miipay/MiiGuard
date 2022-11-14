@@ -1,5 +1,6 @@
 import { MigrationInterface, QueryRunner, In } from 'typeorm';
 import { Permission, User } from '../users/entities';
+import { preloadPermissions, unloadServicePermissions } from './utils/preloads';
 
 const PERMISSIONS = [
   { service: 'MiiGuard', permission: 'permission.list' },
@@ -12,17 +13,10 @@ const PERMISSIONS = [
 
 export class insertMiiGuardPermissions1668059543615 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    for (const permission of PERMISSIONS) {
-      await queryRunner.manager
-        .createQueryBuilder<Permission>(Permission, 'permission')
-        .insert()
-        .values(permission)
-        .orIgnore()
-        .execute();
-    }
+    preloadPermissions(queryRunner, PERMISSIONS);
 
     const perms = await queryRunner.manager.findBy<Permission>(Permission, {
-      service: 'MiiGuard',
+      service: PERMISSIONS[0].service,
       permission: In(PERMISSIONS.map((perm) => perm.permission)),
     });
     const admin = await queryRunner.manager.getRepository(User).findOne({
@@ -40,9 +34,10 @@ export class insertMiiGuardPermissions1668059543615 implements MigrationInterfac
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.manager.delete<Permission>(Permission, {
-      service: 'MiiGuard',
-      permission: In(PERMISSIONS.map((perm) => perm.permission)),
-    });
+    await unloadServicePermissions(
+      queryRunner,
+      PERMISSIONS[0].service,
+      PERMISSIONS.map((perm) => perm.permission),
+    );
   }
 }
