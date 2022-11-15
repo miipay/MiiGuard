@@ -1,6 +1,9 @@
 TODO:
-* audit logs with the log module?
+
+- audit logs with the log module?
+- use a discovery service for obtaining the permissions of other services
 
 Finished:
-* Users CRUD API
-* Authorization for users CRUD APIs
+
+- Users CRUD API
+- Authorization for users CRUD APIs
