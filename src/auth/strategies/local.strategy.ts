@@ -3,8 +3,8 @@ import { Request } from 'express';
 import { PassportStrategy } from '@nestjs/passport';
 import { ContextIdFactory, ModuleRef } from '@nestjs/core';
 import { HttpException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { BaseUser } from 'src/shared/interfaces';
-import { LoginError, LoginErrorType } from 'src/users/users.error';
+import { BaseUser } from '@src/shared/interfaces';
+import { LoginError, LoginErrorType } from '@src/users/users.error';
 import { AuthService } from '../auth.service';
 
 @Injectable()

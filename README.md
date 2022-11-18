@@ -1,6 +1,8 @@
 # MiiGuard
 The authentication of MiiPay
 
+* * e2e-tests: [![Node.js CI](https://github.com/miipay/MiiGuard/actions/workflows/e2e-test.yaml/badge.svg)](https://github.com/miipay/MiiGuard/actions/workflows/e2e-test.yaml)
+
 ## Installation
 
 ```bash

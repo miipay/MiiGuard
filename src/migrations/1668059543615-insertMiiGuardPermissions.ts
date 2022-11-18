@@ -13,7 +13,7 @@ const PERMISSIONS = [
 
 export class insertMiiGuardPermissions1668059543615 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    preloadPermissions(queryRunner, PERMISSIONS);
+    await preloadPermissions(queryRunner, PERMISSIONS);
 
     const perms = await queryRunner.manager.findBy<Permission>(Permission, {
       service: PERMISSIONS[0].service,

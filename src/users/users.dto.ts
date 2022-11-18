@@ -1,5 +1,6 @@
 import { Type } from 'class-transformer';
 import {
+  IsAlphanumeric,
   IsString,
   IsBoolean,
   IsOptional,
@@ -12,7 +13,7 @@ import {
 
 export class CreateUserDto {
   @IsNotEmpty()
-  @IsString()
+  @IsAlphanumeric()
   username: string;
   @IsNotEmpty()
   @IsString()

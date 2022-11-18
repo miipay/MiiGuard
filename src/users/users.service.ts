@@ -4,12 +4,12 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { FilterOperator, PaginateQuery, paginate, Paginated } from 'nestjs-paginate';
+import { IPermission } from '@src/shared/interfaces';
 import { User, Permission, SessionToken } from './entities';
 import { CreateUserDto } from './users.dto';
 import { MAXIMUM_FAILURE_COUNT, LOCK_DURATION } from './constants';
 import { LoginError, LoginErrorType } from './users.error';
 import { hashPassword, verifyPassword } from './utils';
-import { IPermission } from 'src/shared/interfaces';
 
 type CheckTokenType = 'accessTokenHash' | 'refreshTokenHash';
 
@@ -60,7 +60,7 @@ export class UsersService {
     const hashResult = await hashPassword(password);
     user.password = hashResult.passwordHash;
     user.hashAlgorithm = hashResult.algorithm;
-    await this.userRepository.save(user);
+    await this.userRepository.createQueryBuilder().insert().values(user).execute();
     // requery the user to strip out the { select: false } properties, like: password, hash, etc
     return this.userRepository.findOneBy({ username: user.username });
   }

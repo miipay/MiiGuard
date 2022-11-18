@@ -3,8 +3,8 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
-import { UsersService } from 'src/users/users.service';
-import { JWTPayload, BaseUser } from 'src/shared/interfaces';
+import { JWTPayload, BaseUser } from '@src/shared/interfaces';
+import { UsersService } from '@src/users/users.service';
 
 @Injectable()
 export class JWTStrategy extends PassportStrategy(Strategy, 'jwt') {

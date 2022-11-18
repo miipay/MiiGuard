@@ -1,9 +1,9 @@
 import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { UsersService } from 'src/users/users.service';
-import { User } from 'src/users/entities';
-import { JWTPayload, JWTTokens } from 'src/shared/interfaces';
+import { UsersService } from '@src/users/users.service';
+import { User } from '@src/users/entities';
+import { JWTPayload, JWTTokens } from '@src/shared/interfaces';
 import { ACCESS_TOKEN_LIFE_TIME, REFRESH_TOKEN_LIFE_TIME } from './constants';
 
 @Injectable()

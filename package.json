@@ -17,11 +17,16 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e:startdb": "cross-env NODE_ENV=test-local test/start-e2e-db",
+    "test:e2e:stopdb": "cross-env NODE_ENV=test-local test/stop-e2e-db",
+    "test:e2e:restartdb": "yarn test:e2e:stopdb && yarn test:e2e:startdb",
+    "test:e2e:local": "cross-env NODE_ENV=test-local jest --config ./test/jest-e2e.json",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "create-migration": "typeorm-ts-node-esm migration:create",
-    "generate-migration": "typeorm-ts-node-esm migration:generate -d ./src/configs/orm.config.ts",
-    "migrate": "typeorm-ts-node-esm migration:run -d ./src/configs/orm.config.ts",
-    "revert-migration": "typeorm-ts-node-esm migration:revert -d ./src/configs/orm.config.ts"
+    "typeorm": "ts-node --project ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "create-migration": "yarn typeorm migration:create",
+    "generate-migration": "yarn typeorm migration:generate -d ./src/configs/orm.config.ts",
+    "migrate": "yarn typeorm migration:run -d ./src/configs/orm.config.ts",
+    "revert-migration": "yarn typeorm migration:revert -d ./src/configs/orm.config.ts"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -48,7 +53,7 @@
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
-    "@nestjs/testing": "^9.0.0",
+    "@nestjs/testing": "^9.2.0",
     "@types/express": "^4.17.13",
     "@types/jest": "28.1.8",
     "@types/node": "^16.0.0",

@@ -1,12 +1,14 @@
 import { Body, Controller, Get, HttpCode, NotFoundException, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { Paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
-import { Permissions } from 'src/shared/decorators/permission.decorator';
-import { AccessTokenGuard } from 'src/shared/guards/access-token.guard';
-import { PermissionsGuard } from 'src/shared/guards/permission.guard';
+import { Permissions } from '@src/shared/decorators/permission.decorator';
+import { AccessTokenGuard } from '@src/shared/guards/access-token.guard';
+import { PermissionsGuard } from '@src/shared/guards/permission.guard';
 import { User } from './entities';
 import { UsersService } from './users.service';
 import { PERMISSIONS } from './constants';
 import { CreateUserDto, LockUserDto, PermissionsDto, RenameUserDto } from './users.dto';
+import { QueryFailedError } from 'typeorm';
+import { ConflictException } from '@nestjs/common';
 
 @Controller('users')
 @UseGuards(AccessTokenGuard, PermissionsGuard)
@@ -32,7 +34,16 @@ export class UsersController {
   @HttpCode(201)
   @Permissions(PERMISSIONS.UserCreate)
   async createUser(@Body() userDto: CreateUserDto): Promise<User> {
-    return await this.usersService.createUser(userDto);
+    try {
+      return await this.usersService.createUser(userDto);
+    } catch (ex) {
+      if (ex instanceof QueryFailedError) {
+        if ((ex as QueryFailedError).driverError.code === 'ER_DUP_ENTRY') {
+          throw new ConflictException(`duplicated user ${userDto.username}`);
+        }
+      }
+      throw ex;
+    }
   }
 
   @Patch('/:username/lock')

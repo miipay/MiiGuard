@@ -1,9 +1,9 @@
 import { Controller, Get, HttpCode, Post, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
-import { LocalAuthGuard } from 'src/shared/guards/local-auth.guard';
-import { AccessTokenGuard } from 'src/shared/guards/access-token.guard';
-import { RefreshTokenGuard } from 'src/shared/guards/refresh-token.guard';
-import { BaseUser, IPermission, JWTTokens } from 'src/shared/interfaces';
+import { LocalAuthGuard } from '@src/shared/guards/local-auth.guard';
+import { AccessTokenGuard } from '@src/shared/guards/access-token.guard';
+import { RefreshTokenGuard } from '@src/shared/guards/refresh-token.guard';
+import { BaseUser, IPermission, JWTTokens } from '@src/shared/interfaces';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
