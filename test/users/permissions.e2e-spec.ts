@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from '@src/app.module';
 import { IPermission, JWTTokens } from '@src/shared/interfaces';
 import { Permission, User } from '@src/users/entities';
-import { createTestAdmin, LoginAccount } from '../utils';
+import { createTestAdmin, LoginAccount } from '../users.utils';
 
 describe('PermissionsController (e2e)', () => {
   let app: INestApplication;

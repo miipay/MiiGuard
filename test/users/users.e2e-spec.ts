@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from '@src/app.module';
 import { JWTTokens } from '@src/shared/interfaces';
 import { User } from '@src/users/entities';
-import { createTestAdmin, LoginAccount } from '../utils';
+import { createTestAdmin, lockUser, LoginAccount } from '../users.utils';
 
 describe('UsersController (e2e)', () => {
   let app: INestApplication;
@@ -184,14 +184,7 @@ describe('UsersController (e2e)', () => {
 
     it('/users/:username/lock (PATCH) admin session token -> 200', async () => {
       expect(targetUser.locked).toEqual(false);
-      targetUser = (
-        await request(app.getHttpServer())
-          .patch(`/users/${targetUser.username}/lock`)
-          .set('Authorization', `Bearer ${adminAccessToken}`)
-          .send({ locked: true })
-          .expect(200)
-      ).body;
-      expect(targetUser.locked).toEqual(true);
+      targetUser = await lockUser(app, targetUser.username, adminAccessToken, true);
     });
 
     it('/users/:username/displayName (PATCH) admin session token -> 200', async () => {

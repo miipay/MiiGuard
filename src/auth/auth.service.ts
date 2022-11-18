@@ -44,6 +44,7 @@ export class AuthService {
       username: username,
       sub: username,
       iss: 'MiiGuard',
+      iat: new Date().getTime(),
       permissions: user.permissions,
     };
     const tokens = {
