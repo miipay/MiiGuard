@@ -2,6 +2,7 @@ TODO:
 
 - audit logs with the log module?
 - use a discovery service for obtaining the permissions of other services
+- change the JWT signature to public/private keys
 
 Finished:
 
