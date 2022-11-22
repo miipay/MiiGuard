@@ -5,7 +5,7 @@ import { UsersModule } from '../users/users.module';
 import { AuthService } from './auth.service';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JWTStrategy } from './strategies/jwt.strategy';
-import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
+import { RefreshTokenStrategy } from './strategies/refreshToken.strategy';
 import { AuthController } from './auth.controller';
 
 @Module({

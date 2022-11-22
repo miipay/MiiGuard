@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpCode, NotFoundException, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { Paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
 import { Permissions } from '@src/shared/decorators/permission.decorator';
-import { AccessTokenGuard } from '@src/shared/guards/access-token.guard';
+import { AccessTokenGuard } from '@src/shared/guards/accessToken.guard';
 import { PermissionsGuard } from '@src/shared/guards/permission.guard';
 import { User } from './entities';
 import { UsersService } from './users.service';

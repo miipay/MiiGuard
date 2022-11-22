@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, ParseIntPipe, Post, UseGuards } from '@nestjs/common';
 import { Paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
 import { Permissions } from '@src/shared/decorators/permission.decorator';
-import { AccessTokenGuard } from '@src/shared/guards/access-token.guard';
+import { AccessTokenGuard } from '@src/shared/guards/accessToken.guard';
 import { PermissionsGuard } from '@src/shared/guards/permission.guard';
 import { Permission } from './entities';
 import { PERMISSIONS } from './constants';
